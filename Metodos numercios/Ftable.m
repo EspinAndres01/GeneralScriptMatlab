@@ -16,7 +16,7 @@
 %%MEJOR CONTROL DE LOS DATOS
 
 function varargout = Ftable(varargin)
-
+tic;%Inicia el tiempo de ejecucion
 % Argumentos
 narginchk(2,4);
 x = varargin{1};
@@ -37,13 +37,13 @@ tbl = array2table(zeros(r-1,x),'VariableNames', strcat('C', cellstr(num2str((1:x
 
 % Si 'e' es 1, importar datos  de Excel
 if e == 1
-    imported_data = readtable('Book2.xlsx');
+    imported_data = readtable('Book2.xlsx');%Importa los datos de acuerdo al nombre del archivo
     if size(imported_data, 2) == x && size(imported_data, 1) == r-1
         tbl = imported_data;
     else
         error('Los datos importados no coinciden con las dimensiones de la tabla');
     end
-elseif isempty(e)  % Ingresar los datos manualmente
+elseif isempty(e) %Si e es igual a vacio se ingresa la tabla manualmente
     for i = 1:r-1
         for j = 1:x
             tbl{i, j} = input(['Ingrese el valor para la fila ' num2str(i) ', columna ' num2str(j) ': ']);
@@ -51,7 +51,7 @@ elseif isempty(e)  % Ingresar los datos manualmente
     end
 end
 
-% formato 'n'
+% formato 'n' afecta a los decimales
 if n == 1
     format bank;
 elseif n == 2
@@ -63,12 +63,12 @@ elseif n == 4
 else
     format short;  % Formato por defecto
 end
-
 % Mostrar la tabla
 disp(tbl);
-
 % Salidas de la tabla
 if nargout == 1
     varargout{1} = tbl;
 end
+tElapsed = toc;
+disp(['El tiempo de ejecución fue: ', num2str(tElapsed), ' segundos.']);
 end

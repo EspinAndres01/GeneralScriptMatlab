@@ -3,7 +3,7 @@ function Fgraph(varargin)
 % consola se debe llamar como Fgraph(var independiente "x",var dependiente "f",tipo
 % de grafico"p",tendencia de la cuadricula"t",tipo de escala "a") **
 % Fgraph(x,f,p,t,a)
-tic; %Inicio del tiempo de ejecucion
+
 % Verifica que el número de argumentos de entrada sea entre 2 y 5. Si no es así, genera un error.
 narginchk(2,5);
 
@@ -79,13 +79,12 @@ for i = 1:length(f) %en Matlab un array no empiza desde cero, siempre empieza co
     end
     plotFunc(varargin{1}{i}, f{i}); % Grafica los datos. 'plotFunc' es una función de trazado que 
                                      %se seleccionó anteriormente considerando el valor de 't'. 
-                                     %Los datos para el eje X provienen delcontador del primer argumento,para el eje Y provienen del contador de elemento de 'f'.
-    title('Título del gráfico'); %**REVISAR**
-    xlabel('Eje X'); %**REVISAR**
-    ylabel('Eje Y'); %**REVISAR**
-    grid on; %Cuadricula activa
-    axis(axisFunc); %tipo de ejes de acuerdo 'a'
+                                     %Los datos para el eje X provienen del i-ésimo elemento del primer argumento de entrada y los datos para el eje Y provienen del i-ésimo elemento de 'f'.
+    title('Título del gráfico'); 
+    xlabel('Eje X'); 
+    ylabel('Eje Y'); 
+    grid on;
+    axis(axisFunc); 
 end
-tElapsed = toc;%Fin del tiempo de ejecucion
-disp(['El tiempo de ejecución fue: ', num2str(tElapsed), ' segundos.']);
+
 end
