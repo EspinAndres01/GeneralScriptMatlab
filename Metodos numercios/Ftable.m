@@ -43,13 +43,27 @@ if e == 1
     else
         error('Los datos importados no coinciden con las dimensiones de la tabla');
     end
-elseif isempty(e) %Si e es igual a vacio se ingresa la tabla manualmente
+elseif isempty(e) % Si e es igual a vacío se ingresa la tabla manualmente
     for i = 1:r-1
         for j = 1:x
-            tbl{i, j} = input(['Ingrese el valor para la fila ' num2str(i) ', columna ' num2str(j) ': ']);
+            validEntry = false; % Inicializar la variable de entrada válida en falso
+            while ~validEntry
+                val = input(['Ingrese el valor para la fila ' num2str(i) ', columna ' num2str(j) ': '], 's');
+                % Verifica si la entrada está vacía
+                if isempty(val)
+                    disp('Entrada vacía. Inténtalo de nuevo.'); % Mostrar un mensaje de error
+                % Verificar si la entrada es numérica
+                elseif isnumeric(str2double(val)) 
+                    tbl{i, j} = str2double(val);
+                    validEntry = true; % La entrada es válida,FIN DEL BULE
+                else
+                    disp('Entrada inválida. Inténtalo de nuevo.'); % Mostrar un mensaje de error
+                end
+            end
         end
     end
 end
+
 
 % formato 'n' afecta a los decimales
 if n == 1

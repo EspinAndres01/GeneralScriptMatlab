@@ -16,7 +16,7 @@
 %%MEJOR CONTROL DE LOS DATOS
 
 function varargout = Ftable(varargin)
-
+tic;%Inicia el tiempo de ejecucion
 % Argumentos
 narginchk(2,4);
 x = varargin{1};
@@ -43,15 +43,29 @@ if e == 1
     else
         error('Los datos importados no coinciden con las dimensiones de la tabla');
     end
-elseif isempty(e) 
+elseif isempty(e) % Si e es igual a vacío se ingresa la tabla manualmente
     for i = 1:r-1
         for j = 1:x
-            tbl{i, j} = input(['Ingrese el valor para la fila ' num2str(i) ', columna ' num2str(j) ': ']);
+            validEntry = false; % Inicializar la variable de entrada válida en falso
+            while ~validEntry
+                val = input(['Ingrese el valor para la fila ' num2str(i) ', columna ' num2str(j) ': '], 's');
+                % Verifica si la entrada está vacía
+                if isempty(val)
+                    disp('Entrada vacía. Inténtalo de nuevo.'); % Mostrar un mensaje de error
+                % Verificar si la entrada es numérica
+                elseif isnumeric(str2double(val)) 
+                    tbl{i, j} = str2double(val);
+                    validEntry = true; % La entrada es válida, rompe el bucle while
+                else
+                    disp('Entrada inválida. Inténtalo de nuevo.'); % Mostrar un mensaje de error
+                end
+            end
         end
     end
 end
 
-% formato 'n'
+
+% formato 'n' afecta a los decimales
 if n == 1
     format bank;
 elseif n == 2
@@ -63,12 +77,12 @@ elseif n == 4
 else
     format short;  % Formato por defecto
 end
-
 % Mostrar la tabla
 disp(tbl);
-
 % Salidas de la tabla
 if nargout == 1
     varargout{1} = tbl;
 end
+tElapsed = toc;
+disp(['El tiempo de ejecución fue: ', num2str(tElapsed), ' segundos.']);
 end
